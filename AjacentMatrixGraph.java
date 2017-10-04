@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Stack;
 
 public class AjacentMatrixGraph {
     static class Graph {
@@ -43,19 +44,52 @@ public class AjacentMatrixGraph {
         }
 
         //连通图,相当于二叉树的先序遍历 isVisited标识是否遍历。
-        private void depthFirsrSearchR(boolean[] isVisited, int i) {
+        private void depthFirstSearchR(boolean[] isVisited, int i) {
             System.out.println(i);
             isVisited[i] = true;
             int j = getFirstAjacent(i);
             while (j != -1) {
                 if(!isVisited[j]){
-                    depthFirsrSearchR(isVisited, j);
+                    depthFirstSearchR(isVisited, j);
                 }
                 j = getNextAjacent(i, j);
             }
         }
 
+        //非递归深度遍历
+        private void depthFirstSearch(boolean[] isVisited, int i) {
+            Stack<Integer> s = new Stack<>();
+            s.add(i);
+            System.out.println(i);
+            isVisited[i] = true;
+            int j = getFirstAjacent(i);
+            while(!s.isEmpty()){
+                while(j!=-1){
+                    int temp = s.peek();
+                    if(!isVisited[j]){
+                        s.add(j);
+                        System.out.println(j);
+                        isVisited[j] = true;
+                    }
+                    int adj = getFirstAjacent(j);
+                    while(adj!=-1){
+                        if(isVisited[adj]){
+                            adj = getNextAjacent(j,adj);
+                        }else{
+                            break;
+                        }
+                    }
+                    j = adj;
+                }
+                if(!s.isEmpty()){
+                    int leaf = s.pop();
+                    if(!s.isEmpty()){
+                        j = getNextAjacent(s.peek(),leaf);
+                    }
+                }
 
+            }
+        }
 
         //连通图,相当于二叉树的层次遍历 isVisited用来标识是否放到队列中。
         private void broadFirstSearch(boolean[] isVisited, int i) {
@@ -85,7 +119,8 @@ public class AjacentMatrixGraph {
             boolean[] isVisited = new boolean[nodelist.size()];
             for (int k = 0; k < nodelist.size(); k++) {
                 if (!isVisited[k]) {
-                    depthFirsrSearchR(isVisited, k);
+//                    depthFirstSearchR(isVisited, k);
+                    depthFirstSearch(isVisited, k);
                 }
             }
         }
