@@ -1,4 +1,5 @@
 public class test {
-    commit1
-    ament
+    public static void main(String args[]){
+        System.out.println("");
+    }
 }
