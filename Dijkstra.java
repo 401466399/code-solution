@@ -1,4 +1,5 @@
 public class Dijkstra {
+
     static class Graph{
         //邻接矩阵实现
         int edgeNum;  //边数量

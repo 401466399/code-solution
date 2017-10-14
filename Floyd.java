@@ -4,6 +4,7 @@ public class Floyd {
         int[] vecs;
         int[][] weight;
         int edgeNum;
+        int[][] path;
         public Graph(int n){
             vecs = new int[n];
             weight = new int[n][n];
@@ -14,6 +15,7 @@ public class Floyd {
                         weight[i][j] = 0;
                     else
                         weight[i][j] = INF;
+                    path[i][j] = j;
                 }
             }
         }
@@ -30,8 +32,10 @@ public class Floyd {
                         //防止溢出
                         if(weight[i][k]!=INF && weight[k][j]!=INF){
                             temp = weight[i][k]+weight[k][j];
-                            if(temp < weight[i][j])
+                            if(temp < weight[i][j]){
                                 weight[i][j] = temp;
+                                path[i][j] = path[i][k];
+                            }
                         }
                     }
                 }
